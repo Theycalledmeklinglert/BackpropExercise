@@ -176,7 +176,11 @@ def linear_forward(X, w, b):
 	### START OF YOUR CODE                                                         #
 	### TODO: implement the forward pass.										   #	
 	################################################################################
-	pass
+
+	out = torch.matmul(X, w) + b
+	cache = (X, w, b)
+
+	#pass
 	################################################################################
 	### END OF YOUR CODE                                                           #
 	################################################################################
@@ -200,7 +204,14 @@ def mse_forward(y_pred, y):
 	### START OF YOUR CODE                                                         #
 	### TODO: implement the forward pass.										   #	
 	################################################################################
-	pass
+
+	loss = torch.mean((y_pred - y) ** 2)
+
+	cache = (y_pred, y)
+	return loss, cache
+
+
+	#pass
 	################################################################################
 	### END OF YOUR CODE                                                           #
 	################################################################################
@@ -228,11 +239,19 @@ def linear_backward(cache, gout):
 	### START OF YOUR CODE                                                         #
 	### TODO: implement the forward pass.										   #	
 	################################################################################
-	pass
+
+	X, w, b = cache
+
+	xgrad = torch.matmul(gout, w.T)
+	wgrad = torch.matmul(X.T, gout)
+	bgrad = torch.sum(gout)
+
+
+#pass
 	################################################################################
 	### END OF YOUR CODE                                                           #
 	################################################################################
-	return Xgrad, wgrad, bgrad
+	return xgrad, wgrad, bgrad
 
 
 def mse_backward(cache):
@@ -253,7 +272,14 @@ def mse_backward(cache):
 	### START OF YOUR CODE                                                         #
 	### TODO: implement the backward pass.										   #	
 	################################################################################
-	pass
+
+	y_pred, y = cache
+	n = y.shape[0]
+
+	y_predgrad = (2 / n) * (y_pred - y)
+	ygrad = -y_predgrad
+
+	#pass
 	################################################################################
 	### END OF YOUR CODE                                                           #
 	################################################################################

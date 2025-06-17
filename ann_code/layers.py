@@ -20,7 +20,7 @@ class Linear:
 		ins.g: torch.tensor of shape (num_instances, in_features) - input data global gradients
 	"""
 
-	def __init__(self, W, b):
+	def __init__(self, w, b):
 		"""Initiate instances with weight and bias attributes.
 
 		Arguments:
@@ -31,7 +31,17 @@ class Linear:
 		### START OF YOUR CODE                                                         #
 		### TODO: implement the init step.                                             #	
 		################################################################################
-		pass
+
+		self.w = w
+		self.b = b
+		self.ins = None
+		self.outs = None
+		self.w_g = None
+		self.b_g = None
+		self.ins_g = None
+		self.outs = None	# wouldnt torch.zeroes.like(w) also work?
+
+		#pass
 		################################################################################
 		### END OF YOUR CODE                                                           #
 		################################################################################
@@ -49,7 +59,11 @@ class Linear:
 		### START OF YOUR CODE                                                         #
 		### TODO: implement the forward pass.										   #	
 		################################################################################
-		pass
+
+		self.outs = torch.matmul(ins, self.w.T) + self.b
+		self.ins = ins
+
+		#pass
 		################################################################################
 		### END OF YOUR CODE                                                           #
 		################################################################################
@@ -69,7 +83,10 @@ class Linear:
 		### START OF YOUR CODE                                                         #
 		### TODO: implement the backward pass.										   #	
 		################################################################################
-		pass
+
+
+
+		#pass
 		################################################################################
 		### END OF YOUR CODE                                                           #
 		################################################################################
@@ -98,7 +115,10 @@ class Relu:
 		### START OF YOUR CODE                                                         #
 		### TODO: implement the forward pass.										   #	
 		################################################################################
-		pass
+
+		self.outs = torch.clamp(ins, min=0)
+
+		#pass
 		################################################################################
 		### END OF YOUR CODE                                                           #
 		################################################################################
