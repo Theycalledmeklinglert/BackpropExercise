@@ -63,7 +63,7 @@ def grad_model(model, inputs, labels):
     # autograd record operations
     for layer in mdl.layers:
         if isinstance(layer, Linear):
-            layer.W.requires_grad_()
+            layer.w.requires_grad_()
             layer.b.requires_grad_()
 
     inputs.grad = torch.zeros_like(inputs)

@@ -39,7 +39,6 @@ class Linear:
 		self.w_g = None
 		self.b_g = None
 		self.ins_g = None
-		self.outs = None	# wouldnt torch.zeroes.like(w) also work?
 
 		#pass
 		################################################################################
@@ -84,13 +83,16 @@ class Linear:
 		### TODO: implement the backward pass.										   #	
 		################################################################################
 
+		self.ins_g = torch.matmul(gout, self.w)  # shape: (n, d)
+		self.w_g = torch.matmul(gout.T, self.ins)  # shape: (o, d)
+		self.b_g = torch.sum(gout, dim=0, keepdim=True)  # shape: (1, o)
 
 
 		#pass
 		################################################################################
 		### END OF YOUR CODE                                                           #
 		################################################################################
-		return self.ins.g
+		return self.ins_g
 
 
 class Relu:
@@ -101,6 +103,11 @@ class Relu:
 		outs: torch.tensor of shape (num_instances, num_dims) - output data
 		ins.g: torch.tensor of shape (num_instances, num_dims) - input data global gradients
 	"""
+
+	def __init__(self):
+		self.ins = None
+		self.outs = None
+		self.ins_g = None
 
 	def forward(self, ins):
 		"""Forward pass through relu. Populates ins and outs attributes.
@@ -116,6 +123,7 @@ class Relu:
 		### TODO: implement the forward pass.										   #	
 		################################################################################
 
+		self.ins = ins
 		self.outs = torch.clamp(ins, min=0)
 
 		#pass
@@ -137,11 +145,16 @@ class Relu:
 		### START OF YOUR CODE                                                         #
 		### TODO: implement the backward pass.										   #	
 		################################################################################
-		pass
+
+		local_g = (self.outs > 0).float()
+		self.ins_g = local_g * gout
+
+
+		#pass
 		################################################################################
 		### END OF YOUR CODE                                                           #
 		################################################################################
-		return self.ins.g
+		return self.ins_g
 
 
 class Model():
